@@ -453,3 +453,16 @@ class TestHiveContext(sc: SparkContext) extends HiveContext(sc) {
     }
   }
 }
+
+private[hive] object TestHiveContext {
+
+  /**
+   * A map used to store all confs that need to be overridden in sql/hive unit tests.
+   */
+  val overrideConfs: Map[String, String] =
+    Map(
+      // Fewer shuffle partitions to speed up testing.
+      SQLConf.SHUFFLE_PARTITIONS.key -> "10",
+      SQLConf.SHUFFLE_TARGET_POSTSHUFFLE_INPUT_SIZE.key -> "65536"
+    )
+}
